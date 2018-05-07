@@ -39,10 +39,16 @@ public class Main {
         } while (!correct);
         
         System.out.println();
+        PrimeNumberAnalizer pna = new PrimeNumberAnalizer(n,m);
+        
+        System.out.println("==================================================");
+        System.out.println("||\t\tESTADÍSTICA ALGORITMO\t\t||");
+        System.out.println("==================================================");
+        double ratio = AlgorithmTester.successRatio(pna, p, isPrime);
+        
         System.out.println("==================================================");
         System.out.println("||\t\tRESULTADO ALGORITMO\t\t||");
         System.out.println("==================================================");
-        PrimeNumberAnalizer pna = new PrimeNumberAnalizer(n,m);
         switch(pna.isPrime()) {
             case 0:
                 System.out.println("[+] Resultado : " + n + " es un número primo.");
@@ -57,10 +63,11 @@ public class Main {
                 break;
         }
         
-        System.out.println("==================================================");
-        System.out.println("||\t\tESTADÍSTICA ALGORITMO\t\t||");
-        System.out.println("==================================================");
-        AlgorithmTester.successRatio(pna, p, isPrime);
+        if(isPrime)
+            System.out.println("[+] Probabilidad de que sea primo : " + ratio*100 + "%");
+        else
+            System.out.println("[+] Probabilidad de que sea compuesto : " + ratio*100 + "%");
+
     }
     
 }

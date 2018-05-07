@@ -11,12 +11,7 @@ public class AlgorithmTester {
                 success++;
             }
         }
-        if(isPrime)
-            System.out.print("Probabilidad de que sea primo : ");
-        else
-            System.out.print("Probabilidad de que sea compuesto : ");
-
-        System.out.println(success/n);
+        
         return success/n;
     }
 }
