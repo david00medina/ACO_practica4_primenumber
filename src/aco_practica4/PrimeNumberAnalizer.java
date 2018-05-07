@@ -60,9 +60,7 @@ class PrimeNumberAnalizer {
     }
 
     private boolean fermatLittleTheorem(int item) {
-        BigInteger bg = new BigInteger(String.valueOf(item));
-        bg = bg.modPow(new BigInteger(String.valueOf(n-1)), new BigInteger(String.valueOf(n)));
-        
+        BigInteger bg = BigInteger.valueOf(item).modPow(BigInteger.valueOf(n-1), BigInteger.valueOf(n));
         if(bg.intValue() != 1)
             return false;
         return true;

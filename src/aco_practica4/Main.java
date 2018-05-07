@@ -67,6 +67,9 @@ public class Main {
             System.out.println("[+] Probabilidad de que sea primo : " + ratio*100 + "%");
         else
             System.out.println("[+] Probabilidad de que sea compuesto : " + ratio*100 + "%");
+        
+        double theoricalRatio = 1 - Math.pow(2, -m);
+        System.out.println("[+] Probabilidad teórica : " + theoricalRatio*100);
 
     }
     
