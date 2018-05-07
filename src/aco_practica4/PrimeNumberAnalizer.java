@@ -1,6 +1,7 @@
 package aco_practica4;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
@@ -19,26 +20,25 @@ class PrimeNumberAnalizer {
     public int isPrime() {
         System.out.print("[+] PRUEBA : Número impar . . . ");
         
-        if(!isOdd(n)) {
+        if(!isOdd(n) && n != 2) {
             System.out.println("FAIL!");
             return 2;
         }
         
         System.out.println("OK!");
         
+        if(n == 1 || n == 2) return 0;
+        
         int[] selected = generateRandomIntegers();
-        int k = estimateInteger();
-        for (int item : selected) {
-            if(!fermatLittleTheorem(item) || !secondTest(item, k))
-                return 1;
-        }
+        int[] k = estimateInteger();
+        for (int item : selected) 
+            if(!fermatLittleTheorem(item) || !secondTest(item, k)) return 1;
         
         return 0;
     }
 
     private boolean isOdd(int n) {
-        if(n % 2 == 1)
-            return true;
+        if(n % 2 == 1) return true;
         
         return false;
     }
@@ -46,8 +46,9 @@ class PrimeNumberAnalizer {
     private int[] generateRandomIntegers() {
         Random ran = new Random();
         Set<Integer> set = new HashSet<Integer>();
+        int N = n-2;
         for (int i = 0; i < m; i++)
-            set.add(ran.nextInt(n-1) + 1);
+            set.add(ran.nextInt(N)+2);
         
         int[] selected = new int[set.size()];
         int i = 0;
@@ -59,25 +60,39 @@ class PrimeNumberAnalizer {
     }
 
     private boolean fermatLittleTheorem(int item) {
-        if((int)Math.pow(item, n-1) % n != 1)
+        BigInteger bg = new BigInteger(String.valueOf(item));
+        bg = bg.modPow(new BigInteger(String.valueOf(n-1)), new BigInteger(String.valueOf(n)));
+        
+        if(bg.intValue() != 1)
             return false;
         return true;
     }
 
-    private boolean secondTest(int item, int k) {
-        int gcd = greatestCommonDivisor((int)Math.pow(item, k)-1);
-        if(1 < gcd && gcd < n)
-            return false;
-        
+    private boolean secondTest(int item, int[] k) {
+        int cont = 0;
+        int gcd;
+        for (int num : k) {
+            gcd = greatestCommonDivisor((int)Math.pow(item, num)-1);
+            if(1 < gcd && gcd < n) cont++;
+        }
+        if(cont == k.length) return false;
         return true;
     }
     
-    // ¿Cuantas j hay que probar? ¿Es la primera que haga k entera? ¿Qué intervalo?
-    private int estimateInteger() {
+    private int[] estimateInteger() {
         int j = 1;
-        while((n-1) % (int)Math.pow(2, j) != 0)
+        ArrayList<Integer> k = new ArrayList<>();
+        while((n-1) % (int)Math.pow(2, j) == 0) {
+            k.add((n-1) / (int)Math.pow(2, j));
             j++;
-        return (n-1) / (int)Math.pow(2, j);
+        }
+        
+        int[] out = new int[k.size()];
+        for (int i = 0; i < k.size(); i++) {
+            out[i] = k.get(i);
+            
+        }
+        return out;
     }
 
     private int greatestCommonDivisor(int power) {

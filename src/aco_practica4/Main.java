@@ -3,8 +3,8 @@ package aco_practica4;
 public class Main {
 
     public static void main(String[] args) {
-        int n = 31;
-        int m = 4;
+        int n = 9975;
+        int m = 1000;
         PrimeNumberAnalizer pna = new PrimeNumberAnalizer(n,m);
         switch(pna.isPrime()) {
             case 0:
