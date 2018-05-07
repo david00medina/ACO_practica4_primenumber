@@ -70,10 +70,11 @@ class PrimeNumberAnalizer {
 
     private boolean secondTest(int item, int[] k) {
         int cont = 0;
-        int gcd;
-        for (int num : k) {
-            gcd = greatestCommonDivisor((int)Math.pow(item, num)-1);
-            if(1 < gcd && gcd < n) cont++;
+        for (int exp : k) {
+            //gcd = greatestCommonDivisor((int)Math.pow(item, num)-1);
+            BigInteger result = BigInteger.valueOf(item).pow(exp).subtract(BigInteger.ONE);
+            BigInteger gcd = greatestCommonDivisor(result);
+            if(gcd.compareTo(BigInteger.ONE) == 1 && gcd.compareTo(BigInteger.valueOf(n)) == -1) cont++;
         }
         if(cont == k.length) return false;
         return true;
@@ -95,11 +96,8 @@ class PrimeNumberAnalizer {
         return out;
     }
 
-    private int greatestCommonDivisor(int power) {
-        BigInteger a = new BigInteger(new Integer(power).toString());
-        return new Integer(
-                a.gcd(
-                        new BigInteger(
-                                new Integer(n).toString())).toString()).intValue();
+    private BigInteger greatestCommonDivisor(BigInteger num) {
+        //BigInteger a = new BigInteger(new Integer(power).toString());
+        return num.gcd(BigInteger.valueOf(n));
     }
 }
